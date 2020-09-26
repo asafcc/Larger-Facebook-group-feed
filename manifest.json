@@ -1,0 +1,14 @@
+{
+  "name": "Large Facebook Group Feed",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "Makes the feed in facebook's groups larger",
+  "icons": { "128": "128.png", "48": "48.png" },
+  "browser_action": {
+    "default_icon": "90.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": ["tabs", "https://www.facebook.com/groups/*"]
+}
