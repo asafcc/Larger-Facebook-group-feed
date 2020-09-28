@@ -1,4 +1,4 @@
-chrome.browserAction.onClicked.addListener(clicked);
+chrome.pageAction.onClicked.addListener(clicked);
 
 function clicked(tab) {
   const currentURL = tab.url;
@@ -6,7 +6,25 @@ function clicked(tab) {
   const result = currentURL.match(REGEX);
   //checks we are on facebook group url but not the main feed page, and that we've not already added the CHRONOLOGICAL param
   if (REGEX.test(currentURL) && result[1] !== "feed") {
-    console.log("back");
     chrome.tabs.executeScript(null, { file: "content.js" });
   }
 }
+
+let rule1 = {
+  conditions: [
+    new chrome.declarativeContent.PageStateMatcher({
+      pageUrl: {
+        hostEquals: "www.facebook.com",
+        pathPrefix: "/groups",
+        schemes: ["https"],
+      },
+    }),
+  ],
+  actions: [new chrome.declarativeContent.ShowPageAction()],
+};
+
+chrome.declarativeContent.onPageChanged.removeRules(undefined, (data) => {
+  chrome.declarativeContent.onPageChanged.addRules([rule1], (data) => {
+    console.log("addRules", data);
+  });
+});
